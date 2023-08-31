@@ -40,8 +40,8 @@ class Team(db.Model):
     image = db.Column(db.String(100), nullable=False)
     occupation = db.Column(db.String(250), nullable=False)
     facebook_link = db.Column(db.String(1000))
-    
     twitter_link = db.Column(db.String(1000))
+    github_link = db.Column(db.String(1000))
 
 
 
@@ -52,7 +52,8 @@ def index():
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    teams = Team.query.all()
+    return render_template('about.html', teams=teams)
 
 @app.route('/contact')
 def contact():
@@ -135,9 +136,10 @@ def add_team():
         occupation = request.form['occupation']
         facebook_link = request.form['facebook_link']
         twitter_link = request.form['twitter_link']
+        github_link = request.form['github_link']
         
         # Create a new Team instance
-        new_team = Team(name=name, bio=bio, occupation=occupation, facebook_link=facebook_link, twitter_link=twitter_link)
+        new_team = Team(name=name, bio=bio, occupation=occupation, facebook_link=facebook_link, twitter_link=twitter_link, github_link=github_link)
         
         # Handle the updated image file
         if image:
@@ -186,15 +188,22 @@ def edit_team(team_id):
     if request.method == 'POST':
         team.name = request.form['name']
         team.bio = request.form['bio']
-        team.image = request.form['image']
+        image = request.files.get('image')
+        team.occupation = request.form['occupation']
         team.twitter_link = request.form['twitter_link']
         team.facebook_link = request.form['facebook_link']
+        team.github_link = request.form['github_link']
         # Update other fields as needed
+        
+        if image:
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            team.image = filename
         
         db.session.commit()
         return redirect(url_for('edit_team', team_id=team.id))  # Redirect to the same edit page after update
     
-    return render_template('edit-team.html', team=team)
+    return render_template('edit_team.html', team=team)
 
 # View Data in Database
 @app.route('/admin-index')
@@ -211,7 +220,7 @@ def admin_product():
     products = Product.query.all()  # Fetch all products from the database
     return render_template('admin-product.html', products=products)
 
-# Delete property
+# Delete product
 @app.route('/products/<int:id>/delete', methods=['GET', 'DELETE'])
 def delete_product(id):
     product = Product.query.get_or_404(id)
@@ -220,7 +229,14 @@ def delete_product(id):
     flash("Product deleted successfully")
     return redirect(url_for('index'))
 
-
+# Delete Team
+@app.route('/teams/<int:id>/delete', methods=['GET', 'DELETE'])
+def delete_team(id):
+    teams = Team.query.get_or_404(id)
+    db.session.delete(teams)
+    db.session.commit()
+    # flash("Team-member deleted successfully")
+    return redirect(url_for('admin_team'))
 
 
 if __name__ == "__main__":

@@ -48,6 +48,9 @@
                                             <th>Occupation</th>
                                             <th>Facebook Link</th>
                                             <th>Twitter Link</th>
+                                            <th>Github Link</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -56,10 +59,13 @@
                                             <td>{{ team.id }}</td>
                                             <td>{{ team.name }}</td>
                                             <td>{{ team.bio }}</td>
-                                            <td><img src="{{ url_for('static', filename='team_images/' + team.image) }}" alt="Team Image"></td>
+                                            <td><img src="{{ url_for('static', filename='images/' + team.image) }}" alt="Team Image"></td>
                                             <td>{{ team.occupation }}</td>
                                             <td>{{ team.facebook_link }}</td>
                                             <td>{{ team.twitter_link }}</td>
+                                            <td>{{ team.github_link }}</td>
+                                            <td><a href="{{url_for('edit_team', team_id=team.id)}}">edit</a></td>
+                                            <td><a href="{{url_for('delete_team', id=team.id)}}">X</a></td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
