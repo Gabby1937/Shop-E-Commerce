@@ -32,7 +32,7 @@ class Product(db.Model):
     specification = db.Column(db.String(10))
     
 class Team(db.Model):
-    __tablename__ = 'team'
+    __tablename__ = 'teams'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
