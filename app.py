@@ -128,17 +128,22 @@ def add_product():
 @app.route('/add_team', methods=['GET', 'POST'])      
 def add_team():
     if request.method == 'POST':
-        id = request.form['id']
         name = request.form['name']
         # Extract other form fields as needed
         bio = request.form['bio']
-        image = request.form['image']
+        image = request.files.get('image')
         occupation = request.form['occupation']
         facebook_link = request.form['facebook_link']
         twitter_link = request.form['twitter_link']
         
         # Create a new Team instance
-        new_team = Team(name=name, id=id, bio=bio, image=image, occupation=occupation, facebook_link=facebook_link, twitter_link=twitter_link)
+        new_team = Team(name=name, bio=bio, occupation=occupation, facebook_link=facebook_link, twitter_link=twitter_link)
+        
+        # Handle the updated image file
+        if image:
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            new_team.image = filename
         
         # Add and commit the new team to the database
         db.session.add(new_team)
