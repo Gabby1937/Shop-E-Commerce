@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, request, flash, jsonify
+from flask import Flask, render_template, url_for, redirect, request, flash, jsonify, session
 from flask_sqlalchemy import SQLAlchemy
 import os
 from werkzeug.utils import secure_filename
@@ -14,6 +14,7 @@ UPLOAD_FOLDER = './static/images'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://master:ekka@localhost:5432/StudentTemplateDB'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.secret_key = "julian'ssecret"  # Set a secret key for sessions
 
 db = SQLAlchemy(app)
 
@@ -67,6 +68,40 @@ def product():
 @app.route('/services')
 def services():
     return render_template('services.html')
+
+
+
+@app.route('/add_to_cart/<int:product_id>', methods=['GET', "POST"])
+def add_to_cart(product_id):
+    if request.method == 'POST':
+        quantity = int(request.form.get('quantity', 1))
+        price = request.form.get('price')
+        size = request.form.get('size')
+
+        # Retrieve the cart from the session or create a new one if not exists
+        cart = session.get('cart', {})
+        
+        # Update the cart with the new item
+        cart[product_id] = {
+            'quantity': quantity,
+            'price': price,
+            'size': size
+        }
+        
+        session['cart'] = cart  # Store the updated cart in the session
+        
+        flash('Item added to cart', 'success')
+
+        return redirect(url_for('product'))
+    return redirect(url_for('product'))
+
+@app.route('/cart', methods=["GET"])
+def cart():
+    cart = session.get('cart', {})
+    cart_count = sum(item['quantity'] for item in cart.values())  # Calculate the cart count
+    
+    return render_template('cart.html', cart=cart, cart_count=cart_count)
+
 
 @app.route('/product/<int:id>/details', methods=['GET'])
 def product_details(id):

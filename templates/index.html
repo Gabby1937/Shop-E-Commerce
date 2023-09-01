@@ -79,7 +79,7 @@
 						<div class="product-grid" style="background-image: url(static/images/{{product.image1}});">
 							<div class="inner">
 								<p>
-									<a href="#" class="add-to-cart-link" data-product-id="{{ product.id }}"><i class="icon-shopping-cart"></i></a>
+									<a href="{{url_for('add_to_cart', product_id=product.id)}}" class="add-to-cart-link" data-product-id="{{ product.id }}"><i class="icon-shopping-cart"></i></a>
 									<a href="{{ url_for('product_details', id=product.id)}}" class="icon"><i class="icon-eye"></i></a>
 								</p>
 							</div>
