@@ -55,7 +55,7 @@
                                             <td>{{ product.name }}</td>
                                             <td>
                                                 <div class="round-img">
-                                                    <a href="#"><img class="" src="{{ url_for('static', filename='product_images/' + product.image) }}" alt=""></a>
+                                                    <a href="#"><img class="" src="{{ url_for('static', filename='images/'+product.image1) }}" alt=""></a>
                                                 </div>
                                             </td>
                                             <td>{{ product.description }}</td>
@@ -63,7 +63,7 @@
                                             <td>{{ product.specification }}</td>
                                             <td width="130">
                                                 <a href="{{ url_for('edit_product', product_id=product.id) }}" class="btn btn-secondary btn-sm">edit</a>
-                                                <a href="/products/{{ product.id }}/delete" class="btn btn-danger btn-delete btn-sm">delete</a>
+                                                <a href="{{ url_for('delete_product', id=product.id) }}" class="btn btn-danger btn-delete btn-sm">delete</a>
                                             </td>
                                         </tr>
                                         {% endfor %}

@@ -164,14 +164,37 @@ def edit_product(product_id):
     if request.method == 'POST':
         product.name = request.form['name']
         # Handle updated images
-        updated_images = request.files.getlist('image')
-        image_bytes_list = []
+        image1 = request.files.get('image1')
+        image2 = request.files.get('image2')
+        image3 = request.files.get('image3')
+        image4 = request.files.get('image4')
+        image5 = request.files.get('image5')
+        
+        if image1:
+            filename = secure_filename(image1.filename)
+            image1.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            product.image1 = filename
+        
+        if image2:
+            filename = secure_filename(image2.filename)
+            image2.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            product.image2 = filename
+            
+        if image3:
+            filename = secure_filename(image3.filename)
+            image3.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            product.image3 = filename
+            
+        if image4:
+            filename = secure_filename(image4.filename)
+            image4.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            product.image4 = filename
+            
+        if image5:
+            filename = secure_filename(image5.filename)
+            image5.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            product.image5 = filename
 
-        for image in updated_images:
-            image_bytes_list.append(image.read())
-
-        product.images = image_bytes_list  # Update the images attribute
-        product.occupation = request.form['occupation']
         product.specification = request.form['specification']
         product.description = request.form['description']
         # Update other fields as needed
@@ -226,8 +249,8 @@ def delete_product(id):
     product = Product.query.get_or_404(id)
     db.session.delete(product)
     db.session.commit()
-    flash("Product deleted successfully")
-    return redirect(url_for('index'))
+    #flash("Product deleted successfully")
+    return redirect(url_for('admin_product'))
 
 # Delete Team
 @app.route('/teams/<int:id>/delete', methods=['GET', 'DELETE'])
