@@ -13,7 +13,7 @@ UPLOAD_FOLDER = './static/images'
 'postgresql://{username}:{password}@localhost:{port}/{database_name}'
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://master:ekka@localhost:5432/StudentTemplateDB'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://lnxgoewrmtboai:1a1ddb41a827c8eda05ee22f9cb47896e14c4942f2cd42905f0e611ec44c4599@ec2-3-232-218-211.compute-1.amazonaws.com:5432/dc5ekjbnt3q6p5'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://lnxgoewrmtboai:1a1ddb41a827c8eda05ee22f9cb47896e14c4942f2cd42905f0e611ec44c4599@ec2-3-232-218-211.compute-1.amazonaws.com:5432/dc5ekjbnt3q6p5'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = "julian'ssecret"  # Set a secret key for sessions
