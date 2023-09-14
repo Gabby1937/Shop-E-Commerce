@@ -2,7 +2,9 @@ from flask import Flask, render_template, url_for, redirect, request, flash, jso
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import os
-from werkzeug.utils import secure_filename
+from werkzeug.utils import secure_filename 
+import pytz
+from datetime import datetime
 
 # stage your app
 app = Flask(__name__)
@@ -13,7 +15,9 @@ UPLOAD_FOLDER = './static/images'
 'postgresql://{username}:{password}@localhost:{port}/{database_name}'
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://master:ekka@localhost:5432/StudentTemplateDB'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://lnxgoewrmtboai:1a1ddb41a827c8eda05ee22f9cb47896e14c4942f2cd42905f0e611ec44c4599@ec2-3-232-218-211.compute-1.amazonaws.com:5432/dc5ekjbnt3q6p5'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://lnxgoewrmtboai:1a1ddb41a827c8eda05ee22f9cb47896e14c4942f2cd42905f0e611ec44c4599@ec2-3-232-218-211.compute-1.amazonaws.com:5432/dc5ekjbnt3q6p5'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://wgekkbfslmumxo:2a063aa8d443e356df04d6515d8be7109ca7784ad30db6d7ad22e32b0436cd8e@ec2-34-233-242-44.compute-1.amazonaws.com:5432/d9k9m9sr5omapg'
+#'wgekkbfslmumxo:2a063aa8d443e356df04d6515d8be7109ca7784ad30db6d7ad22e32b0436cd8e@ec2-34-233-242-44.compute-1.amazonaws.com:5432/d9k9m9sr5omapg'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = "julian'ssecret"  # Set a secret key for sessions
@@ -128,6 +132,8 @@ def add_product():
         description = request.form['description']
         price = request.form['price']
         specification = request.form['specification']
+        # current_day = datetime.now(pytz.UTC).strftime('%A')
+        # present_time = datetime.now(pytz.UTC)
 
         # Create a new Product instance
         new_product = Product(name=name, description=description, price=price, specification=specification)
