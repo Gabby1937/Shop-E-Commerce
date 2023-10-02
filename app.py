@@ -167,7 +167,7 @@ def add_product():
         # Add and commit the new product to the database
         db.session.add(new_product)
         db.session.commit()
-        
+        flash('New Product Added Successfully!')
         return redirect(url_for('add_product'))  # Redirect to the add_product page after submission
     
     return render_template('add_product.html')
