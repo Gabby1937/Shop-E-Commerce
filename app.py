@@ -196,7 +196,7 @@ def add_team():
         # Add and commit the new team to the database
         db.session.add(new_team)
         db.session.commit()
-        
+        flash('Team member Added Successfully!')
         return redirect(url_for('add_team'))  # Redirect to the add_team page after submission
     
     return render_template('add_team.html')

@@ -37,15 +37,7 @@
                                 <strong>Basic Form</strong> Elements
                             </div>
                             <div class="card-body card-block">
-                                {% with messages = get_flashed_messages() %}
-                                {% if messages %}
-                                <ul class="messages">
-                                    {% for message in messages %}
-                                    <li>{{ message }}</li>
-                                    {% endfor %}
-                                </ul>
-                                {% endif %}
-                                {% endwith %}
+                                
                                 <form action="{{ url_for('add_product') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="name" class="form-control-label">Product name:</label></div>
